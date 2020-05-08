@@ -48,16 +48,16 @@ public class MainActivity extends AppCompatActivity {
         Cursor res = mydb.getAllData();
         if (res.getCount() == 0){
             TampilkanPesan("Eror ","Data Kosong");
+        } else{
+            StringBuffer buffer = new StringBuffer();
+            while (res.moveToNext()){
+                buffer.append("id :"+ res.getString(0)+"\n");
+                buffer.append("nama :"+ res.getString(1)+"\n");
+                buffer.append("surename :"+ res.getString(2)+"\n");
+                buffer.append("Score :"+ res.getString(3)+"\n");
+            }
+            TampilkanPesan("Data",buffer.toString());
         }
-
-        StringBuffer buffer = new StringBuffer();
-        while (res.moveToNext()){
-            buffer.append("id :"+ res.getString(0)+"\n");
-            buffer.append("nama :"+ res.getString(1)+"\n");
-            buffer.append("surename :"+ res.getString(2)+"\n");
-            buffer.append("Score :"+ res.getString(3)+"\n");
-        }
-        TampilkanPesan("Data",buffer.toString());
     }
 
     public void TampilkanPesan(String judul, String pesan){
@@ -80,8 +80,23 @@ public class MainActivity extends AppCompatActivity {
             editText1.setText("");
             editText2.setText("");
             editText3.setText("");
+            editTextid.setText("");
         }
         else
             Toast.makeText(MainActivity.this, "data tidak di update", Toast.LENGTH_SHORT).show();
+    }
+
+    public void deleteData(View view) {
+        Integer delData = mydb.deletData(editTextid.getText().toString());
+
+        if (delData == 0){
+            Toast.makeText(MainActivity.this, "data di Hapus", Toast.LENGTH_SHORT).show();
+            editText1.setText("");
+            editText2.setText("");
+            editText3.setText("");
+            editTextid.setText("");
+        }else {
+            Toast.makeText(MainActivity.this, "data tidak di Hapus", Toast.LENGTH_SHORT).show();
+        }
     }
 }
