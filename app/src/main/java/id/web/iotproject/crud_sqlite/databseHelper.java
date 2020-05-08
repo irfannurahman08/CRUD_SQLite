@@ -9,6 +9,7 @@ package id.web.iotproject.crud_sqlite;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -49,5 +50,22 @@ public class databseHelper extends SQLiteOpenHelper {
             return false;
         else
             return true;
+    }
+
+    public Cursor getAllData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);
+        return res;
+    }
+
+    public boolean updateData(String id,String nama, String surname , String score){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL1,id);
+        contentValues.put(COL2,nama);
+        contentValues.put(COL3,surname);
+        contentValues.put(COL4,score);
+        db.update(TABLE_NAME,contentValues,"ID = ?",new String[] { id } );
+        return true;
     }
 }
